@@ -10,6 +10,7 @@ var LocalStrategy = require('passport-local').Strategy;
 //Define the strategy to be used by PassportJS
 passport.use(new LocalStrategy(
 function(username, password, done) {
+console.log(' test check : ' + username + ' ' + password);
  if (username === "admin" && password === "admin") // stupid example
    return done(null, {name: "admin"});
 
@@ -76,6 +77,7 @@ app.post('/createProject', function(req, res) {
 	res.send('');
 });
 
+/*
 app.post('/login', function(req, res) {
 	console.log('debug : ' + req.session.islog);
 	req.session.islog = false;
@@ -88,11 +90,15 @@ app.post('/login', function(req, res) {
 		}
 	}
 	res.send(req.session.islog);
+});*/
+
+app.post('/login', function(req, res) {
+  res.send('true');
 });
 
+
 app.get('/loggedin', function(req,res) {
-	console.log('Is log ? : ' + req.session.islog); 
-		res.send(req.session.islog);
+	res.send('true');
 	});
 
 

@@ -1,4 +1,4 @@
-var app1 = angular.module('main', ['ngRoute','ngTable','ngResource']).config(function($routeProvider, $locationProvider, $httpProvider) {
+var app1 = angular.module('main', ['ngRoute','ngTable','ngResource','xeditable']).config(function($routeProvider, $locationProvider, $httpProvider) {
     //================================================
     // Check if the user is connected
     //================================================
@@ -9,16 +9,15 @@ var app1 = angular.module('main', ['ngRoute','ngTable','ngResource']).config(fun
       // Make an AJAX call to check if the user is logged in
       $http.get('http://localhost:8888/loggedin').success(function(logged){
         // Authenticated
-    	  alert(logged);
-        if (logged == true)
-          $timeout(deferred.resolve, 0);
+          if (logged == true)
+              $timeout(deferred.resolve, 0);
 
-        // Not Authenticated
-        else {
-          $rootScope.message = 'You need to log in.';
-          $timeout(function(){deferred.reject();}, 0);
-          window.location  ='/login.html';
-        }
+            // Not Authenticated
+            else {
+              $rootScope.message = 'You need to log in.';
+              $timeout(function(){deferred.reject();}, 0);
+              $location.url('/login');
+            }
       });
 
       return deferred.promise;
@@ -86,35 +85,6 @@ var app1 = angular.module('main', ['ngRoute','ngTable','ngResource']).config(fun
   });
 
 
-
-/*
-app1.config(['$routeProvider',
-         	function($routeProvider) {
-         	$routeProvider.
-         	when('/projet', {
-             	templateUrl: 'partials/projet-liste.html',
-             	controller: 'compte',
-             	resolve: {
-             	          loggedin: checkLoggedin
-             	        }
-             	}).
-            when('/liste-url', {
-                 	templateUrl: 'partials/projet-uri.html',
-                 	controller: 'projet'
-                 	}).
-         	when('/create-projet', {
-         	templateUrl: 'partials/projet-info.html',
-         	controller: 'projet'
-         	}).
-         	when('/login', {
-             	templateUrl: 'login.html',
-             	controller: 'login'
-             	}).
-         	otherwise({
-         		redirectTo: '/projet'
-         		});
-         }]);*/
-
 app1.controller('compte', function($http,$scope) {
 	ctrl = this;
    $http.get("http://localhost:8888/users")
@@ -123,8 +93,53 @@ app1.controller('compte', function($http,$scope) {
       })
 })
 
+app1.run(function(editableOptions) {
+    	  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+    	});
+
 
 app1.controller('projet', function($http,$scope) {
+	$scope.urlListe = [
+	                {id: 1, url: 'jean_1254', redirection1: '', redirectionCode1: '', redirection2: '', redirectionCode2: '', redirection3: '', redirectionCode3: ''},
+	                {id: 2, url: 'pull_1254', redirection1: '', redirectionCode1: '', redirection2: '', redirectionCode2: '', redirection3: '', redirectionCode3: ''},
+	                {id: 3, url: 'pantalon_1254', redirection1: '', redirectionCode1: '', redirection2: '', redirectionCode2: '', redirection3: '', redirectionCode3: ''}
+	              ]; 
+	
+	$scope.statuses = [
+	                   {value: 1, text: '200'},
+	                   {value: 2, text: '301'},
+	                   {value: 3, text: '302'},
+	                   {value: 4, text: '400'}
+	                 ]; 
+
+	
+	 // remove user
+	  $scope.removeUrl = function(index) {
+	    $scope.urlListe.splice(index, 1);
+	  };
+
+	  // add user
+	  $scope.addUrl = function() {
+	    $scope.inserted = {
+	      id: $scope.urlListe.length+1,
+	      url: '',
+	      redirection1: '',
+	      redirectionCode1: '',
+	      redirection2: '',
+	      redirectionCode2: '',
+	      redirection3: '',
+	      redirectionCode3: ''
+	    };
+	    $scope.urlListe.push($scope.inserted);
+	  };
+	  
+	  $scope.saveUrl = function(data, id) {
+		  	console.log('test:'+id);
+		    //$scope.user not updated yet
+		    //angular.extend(data, {id: id});
+		  
+		  };
+	
 	var app1 = this;
     app1.setInfos = function(infosProjet) { 
 	$http({
@@ -134,7 +149,7 @@ app1.controller('projet', function($http,$scope) {
         })
 	   
     }
-
+    
 })
 
 
@@ -176,7 +191,7 @@ app1.controller('login', function($http,$scope) {
     
     app1.logSuccess = function() { 
     	alert('log succes');
-    	//window.location  = '/projet.html';
+    	window.location  = '/projet.html';
     }
     
     

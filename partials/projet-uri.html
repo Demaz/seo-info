@@ -1,8 +1,95 @@
-  <div id="gallery">
-    <table ng-table class="table">
-    <tr ng-repeat="url in urls">
-        <td data-title="'Uri'"><a href="projet.html">{{url.uri}}</a></td>
-        <td data-title="'codeRetour'"><a href="projet.html">{{url.codeRetour}}</a></td>
+<div id="gallery">
+  	<font>Nom de la liste</font><input type="text" /><br/>
+  	<font>Description</font><input type="text" /><br/>
+  	Mode de création :
+  	<SELECT ng-model="selection" >
+		<OPTION selected value="sitemap" >Url d'un sitemap</OPTION>
+		<OPTION value="upload" >Fichier csv (Modèle)</OPTION>
+	</SELECT>
+	<div ng-switch on="selection" >
+		<div ng-switch-when="sitemap">
+			<font>Saisir l'url du sitemap</font><input type="text" /> <a>Charger le sitemap</a>
+		</div>
+		<div ng-switch-when="upload">upload</div>
+	</div>
+	
+<div>
+  <table class="table table-bordered table-hover table-condensed">
+    <tr style="font-weight: bold">
+      <td style="width:35%">Origine url</td>
+      <td style="width:20%">Redirection url1</td>
+      <td style="width:20%">Redirection code1</td>
+      <td style="width:20%">Redirection url2</td>
+      <td style="width:20%">Redirection code2</td>
+      <td style="width:20%">Redirection url3</td>
+      <td style="width:20%">Redirection code3</td>
+      <td style="width:25%">Edit</td>
     </tr>
-    </table>
+    <tr ng-repeat="urlRow in urlListe">
+      <td>
+        <!-- editable username (text with validation) -->
+        <span editable-text="urlRow.url" e-name="url" e-form="rowform"  e-required>
+          {{ urlRow.url || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <!-- editable username (text with validation) -->
+        <span editable-text="urlRow.redirection1" e-name="redirection1" e-form="rowform" e-required>
+          {{ urlRow.redirection1 || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <!-- editable status (select-local) -->
+        <span editable-select="urlRow.redirectionCode1" e-name="redirectionCode1" e-form="rowform" e-ng-options="s.value as s.text for s in statuses" e-required>
+          {{ urlRow.redirectionCode1 }}
+        </span>
+      </td>
+      
+      <td>
+        <!-- editable username (text with validation) -->
+        <span editable-text="urlRow.redirection2" e-name="redirection2" e-form="rowform" >
+          {{ urlRow.redirection2 || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <!-- editable status (select-local) -->
+        <span editable-select="urlRow.redirectionCode2" e-name="redirectionCode2" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">
+          {{ urlRow.redirectionCode2 }}
+        </span>
+      </td>
+      
+      <td>
+        <!-- editable username (text with validation) -->
+        <span editable-text="urlRow.redirection3" e-name="redirection3" e-form="rowform" >
+          {{ urlRow.redirection3 || 'empty' }}
+        </span>
+      </td>
+      <td>
+        <!-- editable status (select-local) -->
+        <span editable-select="urlRow.redirectionCode3" e-name="redirectionCode3" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">
+          {{ urlRow.redirectionCode3 }}
+        </span>
+      </td>
+      
+      
+      <td style="white-space: nowrap">
+        <!-- form -->
+        <form editable-form name="rowform" onbeforesave="saveUrl($data, urlRow.url)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == urlRow">
+          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+            save
+          </button>
+          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+            cancel
+          </button>
+        </form>
+        <div class="buttons" ng-show="!rowform.$visible">
+          <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+          <button class="btn btn-danger" ng-click="removeUrl($index)">del</button>
+        </div>  
+      </td>
+    </tr>
+  </table>
+
+  <button class="btn btn-default" ng-click="addUrl()">Add row</button>
+</div>
 </div>
