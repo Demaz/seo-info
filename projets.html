@@ -8,11 +8,11 @@
 <link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
 <link data-require="bootstrap-css@*" data-semver="3.0.0" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
 </head>
-<body id="top" ng-app="main" ng-controller="projet as app" >
+<body id="top" ng-app="main" ng-controller="projets as app" >
 <div class="wrapper col1">
   <div id="head">
     <h1><a href="#">Seo-Scanner</a></h1>
-    <div id="topnav">
+    <!--  <div id="topnav">
       <ul>
         <li><a href="#/projet">Mes projets</a>
           <ul>
@@ -22,25 +22,12 @@
           </ul>
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </div>
-<div class="wrapper col2">
-  <div id="breadcrumb">
-    <ul>
-      <li class="first"><a href="#/create-projet">Infos</a></li>
-      <li>&#187;</li>
-      <li><a href="#/liste-url">Liste</a></li>
-      <li>&#187;</li>
-      <li><a href="#">Utilisateurs</a></li>
-      <li>&#187;</li>
-      <li><a href="#">Alertes</a></li>
-      <li>&#187;</li>
-      <li class="current"><a href="#">Paramètres</a></li>
-    </ul>
-  </div>
+<div id="viewzone" ng-view >
+<div class="wrapper col3" >
 </div>
-<div class="wrapper col3" ng-view >
 </div>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
   <script type="text/javascript" src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js"></script>

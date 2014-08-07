@@ -1,0 +1,31 @@
+ <div class="wrapper col2">
+  <div id="breadcrumb">
+    <ul>
+      <li class="first"><a href="#/projet-detail/{{projetUid}}">Informations projet</a></li>
+      <li>&#187;</li>
+      <li><a href="#/listes/{{app.infosProjet.uid}}">Listes d'url</a></li>
+      <li>&#187;</li>
+      <li ><a href="#/users/{{app.infosProjet.uid}}">Utilisateurs</a></li>
+      <li>&#187;</li>
+      <li><a href="#">Alertes</a></li>
+      <li>&#187;</li>
+      <li class="current"><a href="#">Paramètres</a></li>
+    </ul>
+  </div>
+</div>
+  
+  <div id="gallery">
+  Fréquence : 
+  <br/>
+  <br/>
+  <input type="radio"  name="frequence" value="possible"  >Dès que possible</input> <br/>
+  <input type="radio"  name="frequence" value="possible"  >Tous les jours</input> <br/>
+  <input type="radio"  name="frequence" value="possible"  >Toutes les semaines</input> <br/>
+  <input type="radio"  name="frequence" value="possible"  >Tous les mois</input> <br/>
+  <br/>
+   User agent de la liste : <select ng-model="uaDefault" ng-options="ua.name for ua in userAgents">
+  </select>
+  <br/>
+  <br/>
+  <a href="#/parameters/save">Sauvegarder</a>
+</div>

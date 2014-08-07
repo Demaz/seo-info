@@ -1,0 +1,10 @@
+ <a href="#/login/signeOut">Déconnexion</a> 
+ <div id="gallery">
+    <table ng-table class="table">
+    <tr ng-repeat="projet in projets">
+        <td data-title="'Projet'"><a href="#/projet-detail/{{projet.uid}}">{{projet.name}}</a></td>
+        <td data-title="'Domaine'"><a href="#/projet-detail/{{projet.uid}}">{{projet.domaine}}</a></td>
+    </tr>
+    </table>
+    <a href="#/create-projet">Ajouter un projet</a>
+</div>

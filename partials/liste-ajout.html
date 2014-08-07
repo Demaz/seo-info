@@ -1,0 +1,21 @@
+  <div class="wrapper col2">
+  <div id="breadcrumb">
+    <ul>
+      <li class="first"><a href="#/projet-detail/{{projetUid}}">Informations projet</a></li>
+      <li>&#187;</li>
+      <li class="current" ><a href="#/listes/{{projetUid}}">Listes d'url</a></li>
+      <li>&#187;</li>
+      <li><a href="#/users/{{projetUid}}">Utilisateurs</a></li>
+      <li>&#187;</li>
+      <li><a href="#/alertes/{{projetListUrlUid}}">Alertes</a></li>
+      <li>&#187;</li>
+      <li><a href="#/parameters/{{projetListUrlUid}}">Paramètres</a></li>
+    </ul>
+  </div>
+</div>
+<div id="gallery">
+  	<font>Nom de la liste</font><input type="text" ng-model="app.urlList.name" /><br/>
+  	<font>Description</font><input type="text" ng-model="app.urlList.description" /><br/>
+  	<font>Mode</font><select ng-model="modeDefault" ng-options="mode.name for mode in modes"><br/>
+  	<input type="button" value="sauver" ng-click="app.saveInfos(app.urlList)" />
+</div>

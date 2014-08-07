@@ -1,0 +1,22 @@
+<div class="wrapper col2">
+  <div id="breadcrumb">
+    <ul>
+      <li class="first current"><a href="#/create-projet">Information projet</a></li>
+      <li>&#187;</li>
+      <li><a href="#/listes/{{app.infosProjet.uid}}">Listes d'url</a></li>
+      <li>&#187;</li>
+      <li><a href="#/users/{{app.infosProjet.uid}}">Utilisateurs</a></li>
+    </ul>
+  </div>
+</div>
+<div>
+	  <div> 
+		Nom du projet :
+		<input type="text" ng-model="app.infosProjet.name" ><br/>
+		Description:
+		<input type="text" ng-model="app.infosProjet.description" ><br/>
+		Nom du domaine :
+		<input type="text" ng-model="app.infosProjet.domaine" > <br/>
+		<input type="button" value="ajouter" ng-click="app.setInfos(app.infosProjet)" />
+	</div>
+</div>
