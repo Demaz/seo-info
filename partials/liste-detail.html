@@ -5,29 +5,39 @@
       <li>&#187;</li>
       <li class="current" ><a href="#/listes/{{projetUid}}">Listes d'url</a></li>
       <li>&#187;</li>
-      <li><a href="#/users/{{projetUid}}">Utilisateurs</a></li>
-      <li>&#187;</li>
       <li><a href="#/alertes/{{projetListUrlUid}}">Alertes</a></li>
       <li>&#187;</li>
-      <li><a href="#/parameters/{{projetListUrlUid}}">Paramètres</a></li>
+      <li ng-if="scope.app.urlList.typeUid == 1" ><a href="#/parameters/{{projetListUrlUid}}">Paramètres</a></li>
     </ul>
   </div>
 </div>
 <div id="gallery">
-  	<font>Nom de la liste</font><input type="text" ng-model="app.urlList.name" /><br/>
-  	<font>Description</font><input type="text" ng-model="app.urlList.description" /><br/>
+  	<font>Nom de la liste : </font><input type="text" ng-model="app.urlList.name" /><br/>
+  	<font>Description : </font><input type="text" ng-model="app.urlList.description" /><br/>
   	Mode de création :
   	<SELECT ng-model="selection" >
-		<OPTION selected value="sitemap" >Url d'un sitemap</OPTION>
-		<OPTION value="upload" >Fichier csv (Modèle)</OPTION>
+		<OPTION value="sitemap" >Charger la liste à partir de l'url d'un sitemap</OPTION>
+		<OPTION value="upload" >Charger la liste à partir de l'import d'un fichier CSV</OPTION>
 	</SELECT>
+	<br/>
 	<div ng-switch on="selection" >
 		<div ng-switch-when="sitemap">
-			<font>Saisir l'url du sitemap</font><input type="text" /> <a>Charger le sitemap</a>
+			<font>Saisir l'url du sitemap : </font><input ng-model="app.sitemap.url" type="text" /> 
+			<input type="button" value="Soumettre le sitemap" ng-click="app.submitSitemap(app.sitemap.url)" />
+        </ul>
 		</div>
-		<div ng-switch-when="upload">upload</div>
+		<div ng-switch-when="upload" >
+			<input type="file" nv-file-select uploader="uploader" />
+			<br/>
+			<ul>
+            <li ng-repeat="item in uploader.queue">
+                Name: <span ng-bind="item.file.name"></span><br/>
+                <button ng-click="item.upload()">upload</button>
+            </li>
+			
+		</div>
 	</div>
-	
+	<br/>
 <div>
   <table class="table table-bordered table-hover table-condensed">
     <tr style="font-weight: bold">
@@ -98,13 +108,13 @@
           </button>
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
-          <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-danger" ng-click="removeUrl($index,urlRow.uid)">del</button>
+          <button class="btn btn-primary" ng-click="rowform.$show()">Modifier</button>
+          <button class="btn btn-danger" ng-click="removeUrl($index,urlRow.uid)">Suppr</button>
         </div>  
       </td>
     </tr>
   </table>
   
-  <button class="btn btn-default" ng-click="addUrl()">Add row</button>
+  <button class="btn btn-default" ng-click="addUrl()">Ajouter une url</button>
 </div>
 </div>

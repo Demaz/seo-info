@@ -16,6 +16,6 @@
 <div id="gallery">
   	<font>Nom de la liste</font><input type="text" ng-model="app.urlList.name" /><br/>
   	<font>Description</font><input type="text" ng-model="app.urlList.description" /><br/>
-  	<font>Mode</font><select ng-model="modeDefault" ng-options="mode.name for mode in modes"><br/>
+  	<font>Mode</font><select ng-model="typeDefault" ng-options="type.name for type in types"><br/>
   	<input type="button" value="sauver" ng-click="app.saveInfos(app.urlList)" />
 </div>

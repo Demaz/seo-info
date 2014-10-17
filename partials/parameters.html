@@ -5,8 +5,6 @@
       <li>&#187;</li>
       <li><a href="#/listes/{{app.infosProjet.uid}}">Listes d'url</a></li>
       <li>&#187;</li>
-      <li ><a href="#/users/{{app.infosProjet.uid}}">Utilisateurs</a></li>
-      <li>&#187;</li>
       <li><a href="#">Alertes</a></li>
       <li>&#187;</li>
       <li class="current"><a href="#">Paramètres</a></li>
@@ -18,10 +16,11 @@
   Fréquence : 
   <br/>
   <br/>
-  <input type="radio"  name="frequence" value="possible"  >Dès que possible</input> <br/>
-  <input type="radio"  name="frequence" value="possible"  >Tous les jours</input> <br/>
-  <input type="radio"  name="frequence" value="possible"  >Toutes les semaines</input> <br/>
-  <input type="radio"  name="frequence" value="possible"  >Tous les mois</input> <br/>
+  <input type="radio" checked  name="frequence" value="daily"  >Tous les jours à partir de </input><select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minutesDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
+  <input type="radio"  name="frequence" value="weekly"  >Toutes les semaines le </input> <select ng-model="jourDefault" ng-options="jr.name for jr in jours"> </select> à <select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minutesDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
+  <input type="radio"  name="frequence" value="monthly"  >Tous les mois</input> le <select ng-model="numJourDefault" ng-options="numJr.numero for numJr in numeroJours"> </select> du mois à <select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minutesDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
+  <br/>
+  	Vitesse : 
   <br/>
    User agent de la liste : <select ng-model="uaDefault" ng-options="ua.name for ua in userAgents">
   </select>

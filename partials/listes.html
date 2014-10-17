@@ -14,7 +14,8 @@
     <table ng-table class="table">
     <tr ng-repeat="liste in listes">
         <td data-title="'nom de la liste'"><a href="#/liste-detail/{{liste.projetUid}}/{{liste.uid}}">{{liste.name}}</a></td>
-        <td data-title="'total url'"><a href="#/liste-detail/{{liste.projetUid}}/{{liste.uid}}">{{liste.nbUri}}</a></td>
+        <td data-title="'total url'"><a href="#/liste-detail/{{liste.projetUid}}/{{liste.uid}}">{{liste.nbUrl}}</a></td>
+        <td data-title="'Rapports'"><a href="#/rapport">graph</a></td>
     </tr>
     </table>
      <a href="#/list-add/{{projetUid}}">Ajouter une liste</a>

@@ -18,4 +18,6 @@
         <td data-title="'role'">{{projet.role}}</td>
     </tr>
     </table>
+    <select ng-model="ouDefault" ng-options="ou.name for ou in otherUsers"/>
+    <input type="button" value="ajouter" ng-click="app.addUser(ouDefault)" />
 </div>
