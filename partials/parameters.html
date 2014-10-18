@@ -3,7 +3,7 @@
     <ul>
       <li class="first"><a href="#/projet-detail/{{projetUid}}">Informations projet</a></li>
       <li>&#187;</li>
-      <li><a href="#/listes/{{app.infosProjet.uid}}">Listes d'url</a></li>
+      <li><a href="#/liste-detail/{{projetUid}}/{{projetListUrlUid}}">Listes d'url</a></li>
       <li>&#187;</li>
       <li><a href="#">Alertes</a></li>
       <li>&#187;</li>
@@ -16,9 +16,9 @@
   Fréquence : 
   <br/>
   <br/>
-  <input type="radio" checked  name="frequence" value="daily"  >Tous les jours à partir de </input><select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minutesDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
-  <input type="radio"  name="frequence" value="weekly"  >Toutes les semaines le </input> <select ng-model="jourDefault" ng-options="jr.name for jr in jours"> </select> à <select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minutesDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
-  <input type="radio"  name="frequence" value="monthly"  >Tous les mois</input> le <select ng-model="numJourDefault" ng-options="numJr.numero for numJr in numeroJours"> </select> du mois à <select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minutesDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
+  <input type="radio" checked  name="frequence" value="daily" ng-model="parameters.frequence"  >Tous les jours à partir de </input><select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minuteDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
+  <input type="radio"  name="frequence" value="weekly" ng-model="parameters.frequence"  >Toutes les semaines le </input> <select ng-model="jourDefault" ng-options="jr.name for jr in jours"> </select> à <select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minuteDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
+  <input type="radio"  name="frequence" value="monthly" ng-model="parameters.frequence" >Tous les mois</input> le <select ng-model="numJourDefault" ng-options="numJr.numero for numJr in numeroJours"> </select> du mois à <select ng-model="heureDefault" ng-options="hr.heure for hr in heures"> </select> h <select ng-model="minuteDefault" ng-options="mn.minute for mn in minutes"> </select> mn<br/>
   <br/>
   	Vitesse : 
   <br/>
@@ -26,5 +26,5 @@
   </select>
   <br/>
   <br/>
-  <a href="#/parameters/save">Sauvegarder</a>
+  <button ng-click="app.saveParameters(parameters.frequence)" >Valider</button>
 </div>

@@ -113,9 +113,16 @@ var app1 = angular.module('main', ['ngRoute','ngTable','ngResource','xeditable',
  	 	         loggedin: checkLoggedin
  	 	       }
  	 	 	}).
- 	when('/parameters/:projetListUrlUid', {
+ 	when('/parameters/:projetUid/:projetListUrlUid', {
  	 	 		templateUrl: 'partials/parameters.html',
  	 	     	controller: 'parameters',
+ 	 	 	 	 	resolve: {
+ 	 	 	 	         loggedin: checkLoggedin
+ 	 	 	 	       }
+ 	 	 	}).
+ 	when('/alertes/:projetUid/:projetListUrlUid', {
+ 	 	 		templateUrl: 'partials/alertes.html',
+ 	 	     	controller: 'alertes',
  	 	 	 	 	resolve: {
  	 	 	 	         loggedin: checkLoggedin
  	 	 	 	       }
@@ -199,26 +206,31 @@ app1.controller('user', function($http,$scope,$routeParams) {
 })
 
 app1.controller('parameters', function($http,$scope,$routeParams) {
+	$scope.projetUid = $routeParams.projetUid;
 	$scope.projetListUrlUid = $routeParams.projetListUrlUid;
+	$scope.parameters = {};
 	
-	$scope.jours = [{name: 'Lundi'},{name: 'Mardi'},{name: 'Mercredi'},{name: 'Jeudi'},{name: 'Vendredi'},{name: 'Samedi'},{name: 'Dimanche'}];
+	$scope.jours = [{uid: 1 ,name: 'Lundi'},{uid: 2,name: 'Mardi'},{uid: 3,name: 'Mercredi'},{uid: 4,name: 'Jeudi'},{uid: 5,name: 'Vendredi'},{uid: 6,name: 'Samedi'},{uid: 7,name: 'Dimanche'}];
 	
 	$scope.heures = [];
 	for(var $i=0;$i<24;$i++) {
-		$scope.heures.push({heure: $i});
+		$scope.heures.push({uid: $i,heure: $i});
 	}
-	$scope.heureDefault = $scope.heures[0];
+	
 	$scope.minutes = [];
 	for(var $i=0;$i<60;$i++) {
-		$scope.minutes.push({minute: $i});
+		$scope.minutes.push({uid: $i,minute: $i});
 	}
-	$scope.minutesDefault = $scope.minutes[0];
+	
 	$scope.numeroJours = [];
 	for(var $i=1;$i<29;$i++) {
-		$scope.numeroJours.push({numero: $i});
+		$scope.numeroJours.push({uid: $i,numero: $i});
 	}
+	
 	$scope.numJourDefault = $scope.numeroJours[0];
 	$scope.jourDefault = $scope.jours[0];
+	$scope.heureDefault = $scope.heures[0];
+	$scope.minuteDefault = $scope.minutes[0];
 	
 	
 	  $http({
@@ -235,21 +247,58 @@ app1.controller('parameters', function($http,$scope,$routeParams) {
 	            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	        }).success(function(resp2, status, headers, config) {
 	        	$scope.parameters = resp2;
-	        	//alert($scope.userAgents.length);
+
 	        	for($i=0;$i<$scope.userAgents.length;$i++) {
 		    		if($scope.parameters.userAgentUid == $scope.userAgents[$i].uid) {
 		    			$scope.uaDefault = $scope.userAgents[$i];
 		    		}
 		    	}
+	        	
+	        	for($i=0;$i<$scope.numeroJours.length;$i++) {
+		    		if($scope.parameters.jourMois == $scope.numeroJours[$i].uid) {
+		    			$scope.numJourDefault = $scope.numeroJours[$i];
+		    		}
+		    	}
+	        	for($i=0;$i<$scope.jours.length;$i++) {
+		    		if($scope.parameters.jour == $scope.jours[$i].uid) {
+		    			$scope.jourDefault = $scope.jours[$i];
+		    		}
+		    	}
+	        	
+	        	for($i=0;$i<$scope.heures.length;$i++) {
+		    		if($scope.parameters.heure == $scope.heures[$i].uid) {
+		    			$scope.heureDefault = $scope.heures[$i];
+		    		}
+		    	}
+	        		
+	        	for($i=0;$i<$scope.minutes.length;$i++) {
+		    		if($scope.parameters.minute == $scope.minutes[$i].uid) {
+		    			$scope.minuteDefault = $scope.minutes[$i];
+		    		}
+		    	}
+	        	
+	        	
 	        })
 	    })
 		    
-   $scope.app.saveParameters = function(parameters) { 
+   $scope.app.saveParameters = function(frequence) { 
+		  $scope.parameters.userAgentUid = $scope.uaDefault.uid;
+		  $scope.parameters.jourMois = $scope.numJourDefault.uid;
+		  $scope.parameters.jour = $scope.jourDefault.uid;
+		  $scope.parameters.heure = $scope.heureDefault.uid;
+		  $scope.parameters.minute = $scope.minuteDefault.uid;
+		  $scope.parameters.projetListUrlUid = $scope.projetListUrlUid;
+		  $scope.parameters.frequence = frequence;
+		  
 		$http({
 	            method : 'POST',
 	            url : 'http://localhost/projetService/parameters/save',
-	            data : parameters
+	            data : $scope.parameters
+	        }).success(function(data) {
+	        	$scope.parameters = data;
 	        })
+	        
+	        
     }
 })
 
@@ -327,6 +376,36 @@ app1.factory('userRepository', function($http) {
     	}
     };
  });
+
+app1.controller('alertes', function($http,$scope,$routeParams) {
+	$scope.projetUid = $routeParams.projetUid;
+	$scope.projetListUrlUid = $routeParams.projetListUrlUid;
+	$scope.alertes = {};
+	
+	  $http({
+	        method : 'POST',
+	        url : 'http://localhost/projetService/alertes/get',
+	        data : 'projetUid='+$scope.projetUid+'&projetListUrlUid='+$scope.projetListUrlUid,
+	        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	    }).success(function(data, status, headers, config) {
+	    	$scope.alertes =  data;
+	    })
+	    
+   $scope.app.saveAlertes = function() { 
+		$scope.alertes.projetListUrlUid = $scope.projetListUrlUid;
+		 
+		$http({
+	            method : 'POST',
+	            url : 'http://localhost/projetService/alertes/save',
+	            data : $scope.alertes
+	        }).success(function(data) {
+	        	$scope.alertes = data;
+	        })
+	        
+	        
+    }
+	
+});
 
 
 app1.controller('listeDetail', function($http,$scope,$routeParams, FileUploader,userRepository) {

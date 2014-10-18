@@ -5,9 +5,9 @@
       <li>&#187;</li>
       <li class="current" ><a href="#/listes/{{projetUid}}">Listes d'url</a></li>
       <li>&#187;</li>
-      <li><a href="#/alertes/{{projetListUrlUid}}">Alertes</a></li>
+      <li><a href="#/alertes/{{projetUid}}/{{projetListUrlUid}}">Alertes</a></li>
       <li>&#187;</li>
-      <li ng-if="scope.app.urlList.typeUid == 1" ><a href="#/parameters/{{projetListUrlUid}}">Paramètres</a></li>
+      <li ng-if="scope.app.urlList.typeUid =! null" ><a href="#/parameters/{{projetUid}}/{{projetListUrlUid}}">Paramètres</a></li>
     </ul>
   </div>
 </div>

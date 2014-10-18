@@ -1,0 +1,25 @@
+ <div class="wrapper col2">
+  <div id="breadcrumb">
+    <ul>
+      <li class="first"><a href="#/projet-detail/{{projetUid}}">Informations projet</a></li>
+      <li>&#187;</li>
+      <li><a href="#/liste-detail/{{projetUid}}/{{projetListUrlUid}}">Listes d'url</a></li>
+      <li>&#187;</li>
+      <li><a href="#">Alertes</a></li>
+      <li>&#187;</li>
+      <li class="current"><a href="#">Paramètres</a></li>
+    </ul>
+  </div>
+</div>
+  
+  <div id="gallery">
+    <font>Nom de l'alerte </font><input type="text" ng-model="alertes.name" /><br/>
+  	<font>Description : </font><input type="text" ng-model="alertes.description" /><br/><br/>
+  	<font>Conditions :  </font><br/><br/>
+  	<font>Envoyé une alerte si   </font><br/><br/>
+	  	<input type="radio" value="crawlFinish" ng-model="alertes.type"  /> Dès qu'un crawl est terminé <br/>
+	  	<input type="radio" value="ifError" ng-model="alertes.type"  /> Si au moins une erreur <br/>
+	  	<input type="radio" value="pourcentage" ng-model="alertes.type"  /> Si % sont en erreur<br/><br/>
+  	
+  <button ng-click="app.saveAlertes()" >Valider</button>
+</div>
