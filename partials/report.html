@@ -1,0 +1,34 @@
+  <div class="wrapper col2">
+  <div id="breadcrumb">
+    <ul>
+      <li class="first"><a href="#/projet-detail/{{projetUid}}">Informations projet</a></li>
+      <li>&#187;</li>
+      <li class="current" ><a href="#/listes/{{app.infosProjet.uid}}">Listes d'url</a></li>
+      <li>&#187;</li>
+      <li><a href="#/users/{{app.infosProjet.uid}}">Utilisateurs</a></li>
+    </ul>
+  </div>
+</div>
+
+    <select ng-options="(ev.endDate | date:'MM/dd/yyyy @ hh:mm') for ev in events" ng-model="eventStartSelected" ng-change="loadReports()" >
+	</select>
+
+	<select ng-options="(ev.endDate | date:'MM/dd/yyyy @ hh:mm') for ev in events" ng-model="eventEndSelected" ng-change="loadReports()" >
+	</select>
+	
+	<div id="sparkline">
+	</div>
+	
+  <div id="gallery">
+    <table ng-table class="table">
+    <tr ng-repeat="report in reports">
+        <td data-title="'url'">{{report.url}}</td>
+        <td data-title="'url de destination1'">{{report.redirectionUrl1}}</td>
+        <td data-title="'code réponse url 1'">{{report.redirectionUrlCode1}}</td>
+        <td data-title="'url de destination2'">{{report.redirectionUrl2}}</td>
+        <td data-title="'code réponse url 2'">{{report.redirectionUrlCode2}}</td>
+        <td data-title="'url de destination3'">{{report.redirectionUrl3}}</td>
+        <td data-title="'code réponse url 3'">{{report.redirectionUrlCode3}}</td>
+    </tr>
+    </table>
+</div>

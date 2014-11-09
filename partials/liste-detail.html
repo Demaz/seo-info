@@ -38,6 +38,15 @@
 		</div>
 	</div>
 	<br/>
+	  <div ng-switch on="app.urlList.eventsToDo.length" >
+	  	<div ng-switch-when="0">
+	  		<button ng-click="app.submitCrawl()">Lancer un crawl</button>
+	    </div>
+	     <div ng-switch-default>
+	  		Crawl en cours
+	    </div>
+	  </div>
+	<br/>
 <div>
   <table class="table table-bordered table-hover table-condensed">
     <tr style="font-weight: bold">
