@@ -15,7 +15,7 @@ var app1 = angular
 
 						// Make an AJAX call to check if the user is logged in
 						$http
-								.get('http://localhost/loginService/isSigned')
+								.get('/loginService/isSigned')
 								.success(
 										function(logged) {
 											// Authenticated
@@ -48,7 +48,7 @@ var app1 = angular
 													$http(
 															{
 																method : 'POST',
-																url : 'http://localhost/projetService/urllist',
+																url : '/projetService/urllist',
 																data : 'projetUid='
 																		+ projetUid
 																		+ '&projetListUrlUid='
@@ -179,7 +179,7 @@ app1.controller('listes', function($http, $scope, $routeParams) {
 	ctrl = this;
 	$http({
 		method : 'POST',
-		url : 'http://localhost/projetService/listes',
+		url : '/projetService/listes',
 		data : 'projetUid=' + $routeParams.projetUid,
 		headers : {
 			'Content-Type' : 'application/x-www-form-urlencoded'
@@ -195,7 +195,7 @@ app1.controller('user', function($http, $scope, $routeParams) {
 	ctrl = this;
 	$http({
 		method : 'POST',
-		url : 'http://localhost/projetService/users',
+		url : '/projetService/users',
 		data : 'projetUid=' + $routeParams.projetUid,
 		headers : {
 			'Content-Type' : 'application/x-www-form-urlencoded'
@@ -206,7 +206,7 @@ app1.controller('user', function($http, $scope, $routeParams) {
 
 	$http({
 		method : 'POST',
-		url : 'http://localhost/projetService/comptesUsers',
+		url : '/projetService/comptesUsers',
 		data : 'projetUid=' + $routeParams.projetUid,
 		headers : {
 			'Content-Type' : 'application/x-www-form-urlencoded'
@@ -221,7 +221,7 @@ app1.controller('user', function($http, $scope, $routeParams) {
 		$http(
 				{
 					method : 'POST',
-					url : 'http://localhost/projetService/addProjetUser',
+					url : '/projetService/addProjetUser',
 					data : 'projetUid=' + $routeParams.projetUid + '&userUid='
 							+ user.uid,
 					headers : {
@@ -299,7 +299,7 @@ app1
 
 					$http({
 						method : 'GET',
-						url : 'http://localhost/projetService/useragents'
+						url : '/projetService/useragents'
 					})
 							.success(
 									function(resp1, status, headers, config) {
@@ -309,7 +309,7 @@ app1
 										$http(
 												{
 													method : 'POST',
-													url : 'http://localhost/projetService/parameters/get',
+													url : '/projetService/parameters/get',
 													data : 'projetListUrlUid='
 															+ $scope.projetListUrlUid,
 													headers : {
@@ -365,7 +365,7 @@ app1
 						$http(
 								{
 									method : 'POST',
-									url : 'http://localhost/projetService/parameters/save',
+									url : '/projetService/parameters/save',
 									data : $scope.parameters
 								}).success(function(data) {
 							$scope.parameters = data;
@@ -376,7 +376,7 @@ app1
 
 app1.controller('projets', function($http, $scope) {
 	ctrl = this;
-	$http.get("http://localhost/projetService/projets").success(function(data) {
+	$http.get("/projetService/projets").success(function(data) {
 		$scope.projets = data;
 	})
 })
@@ -386,20 +386,41 @@ app1.run(function(editableOptions) {
 									// 'default'
 });
 
-app1.controller('projetDetail', function($http, $scope, $routeParams) {
+app1.controller('projetDetail', function($http, $scope,$timeout, $routeParams) {
 	$scope.projetUid = $routeParams.projetUid;
-	$scope.app.setInfos = function(infosProjet) {
+	$scope.actionMessage = 'creation';
+	$scope.updateSuccess = false;
+	
+	$scope.app.createProjet = function(infosProjet) {
 		$http({
 			method : 'POST',
-			url : 'http://localhost/projetService/add',
+			url : '/projetService/projet/add',
 			data : infosProjet
+		}).success(function(data, status, headers, config) {
+			$scope.app.infosProjet = data;
+			$scope.actionMessage = 'creationEffectuee';
 		})
 	}
-
-	if ($routeParams.projetUid != '') {
+	
+	$scope.app.updateProjet = function(infosProjet) {
 		$http({
 			method : 'POST',
-			url : 'http://localhost/projetService/get',
+			url : '/projetService/projet/update',
+			data : infosProjet
+		}).success(function(data, status, headers, config) {
+			$scope.app.infosProjet = data;
+			//$scope.actionMessage = 'miseAJourEffectuee';
+			$scope.updateSuccess =true;
+			$timeout(function () {$scope.updateSuccess =false;},2500);
+		})
+	}
+	
+	
+	if (!angular.isUndefined($routeParams.projetUid)) {
+		$scope.actionMessage = 'miseAJour';
+		$http({
+			method : 'POST',
+			url : '/projetService/projet/get',
 			data : 'projetUid=' + $routeParams.projetUid,
 			headers : {
 				'Content-Type' : 'application/x-www-form-urlencoded'
@@ -407,17 +428,17 @@ app1.controller('projetDetail', function($http, $scope, $routeParams) {
 		}).success(function(data, status, headers, config) {
 			$scope.app.infosProjet = data;
 		})
-	}
+	} 
 })
 
 app1.controller('listeAdd', function($http, $scope, $routeParams, $location) {
 	$scope.projetUid = $routeParams.projetUid;
 	$scope.types = [ {
 		uid : '1',
-		name : 'oneshot'
+		name : 'Sur demande'
 	}, {
 		uid : '2',
-		name : 'planifiée'
+		name : 'Planifiee'
 	} ];
 	$scope.typeDefault = $scope.types[1];
 
@@ -426,7 +447,7 @@ app1.controller('listeAdd', function($http, $scope, $routeParams, $location) {
 		urlList.typeUid = $scope.typeDefault.uid;
 		$http({
 			method : 'POST',
-			url : 'http://localhost/projetService/addUrllist',
+			url : '/projetService/addUrllist',
 			data : urlList
 		}).success(
 				function(data, status, headers, config) {
@@ -448,7 +469,7 @@ app1
 							$http(
 									{
 										method : 'POST',
-										url : 'http://localhost/projetService/urllist',
+										url : '/projetService/urllist',
 										data : 'projetUid=' + projetUid
 												+ '&projetListUrlUid='
 												+ projetListUrlUid,
@@ -472,7 +493,7 @@ app1.controller('alertes', function($http, $scope, $routeParams) {
 	$http(
 			{
 				method : 'POST',
-				url : 'http://localhost/projetService/alertes/get',
+				url : '/projetService/alertes/get',
 				data : 'projetUid=' + $scope.projetUid + '&projetListUrlUid='
 						+ $scope.projetListUrlUid,
 				headers : {
@@ -487,7 +508,7 @@ app1.controller('alertes', function($http, $scope, $routeParams) {
 
 		$http({
 			method : 'POST',
-			url : 'http://localhost/projetService/alertes/save',
+			url : '/projetService/alertes/save',
 			data : $scope.alertes
 		}).success(function(data) {
 			$scope.alertes = data;
@@ -505,6 +526,7 @@ app1.controller('listeDetail', function($http, $scope, $routeParams,
 	$scope.app.urlList = {};
 	$scope.event = {};
 	$scope.urlListe = {};
+	$scope.modeEnrichissement = 'manuel';
 	$scope.app.loadUrlList = function() {
 		userRepository.loadUrls($scope, $scope.projetUid,
 				$scope.projetListUrlUid);
@@ -529,7 +551,7 @@ app1.controller('listeDetail', function($http, $scope, $routeParams,
 		$http(
 				{
 					method : 'POST',
-					url : 'http://localhost/projetService/listes/sitemap/save',
+					url : '/projetService/listes/sitemap/save',
 					data : 'projetListUrlUid=' + $scope.projetListUrlUid
 							+ '&sitemapUrl=' + urlSitemap,
 					headers : {
@@ -545,10 +567,10 @@ app1.controller('listeDetail', function($http, $scope, $routeParams,
 		$scope.event.projetListUrlUid = $scope.projetListUrlUid;
 		$http({
 			method : 'POST',
-			url : 'http://localhost/projetService/listes/submit',
+			url : '/projetService/listes/submit',
 			data : $scope.event
 		}).success(function(data, status, headers, config) {
-			$scope.app.urlList.eventToDo.push(data);
+			$scope.app.urlList.eventsToDo.push(data);
 		})
 	}
 
@@ -749,7 +771,7 @@ app1.controller('listeDetail', function($http, $scope, $routeParams,
 		if (uid != null) {
 			$http({
 				method : 'POST',
-				url : 'http://localhost/projetService/deleteUrl',
+				url : '/projetService/deleteUrl',
 				data : 'uid=' + uid,
 				headers : {
 					'Content-Type' : 'application/x-www-form-urlencoded'
@@ -765,11 +787,11 @@ app1.controller('listeDetail', function($http, $scope, $routeParams,
 			uid : null,
 			url : '',
 			redirectionUrl1 : '',
-			redirectionUrlCode1 : '',
+			redirectionUrlCode1 : 200,
 			redirectionUrl2 : '',
-			redirectionUrlCode2 : '',
+			redirectionUrlCode2 : 200,
 			redirectionUrl3 : '',
-			redirectionUrlCode3 : ''
+			redirectionUrlCode3 : 200
 		};
 		$scope.urlListe.push($scope.inserted);
 	};
@@ -782,7 +804,7 @@ app1.controller('listeDetail', function($http, $scope, $routeParams,
 		data.uid = uid;
 		$http({
 			method : 'POST',
-			url : 'http://localhost/projetService/addUpdateUrlToList',
+			url : '/projetService/addUpdateUrlToList',
 			data : data,
 			headers : {
 				'Content-Type' : 'application/json'
@@ -796,29 +818,25 @@ app1.controller('listeDetail', function($http, $scope, $routeParams,
 
 app1.controller('liste', function($http, $scope) {
 	ctrl = this;
-	$http.get("http://localhost/projetService/list").success(function(data) {
+	$http.get("/projetService/list").success(function(data) {
 		$scope.users = data;
 	})
 })
 
 app1.controller('loginOut', function($http, $scope) {
 	ctrl = this;
-	$http.get("http://localhost/loginService/signeOut").success(function(data) {
+	$http.get("/loginService/signeOut").success(function(data) {
 		window.location = '/login.html';
 	})
 })
 
 app1.controller('reports', function($http, $scope, $routeParams) {
 	$scope.projetListUrlUid = $routeParams.projetListUrlUid;
-	
-	$("#sparkline").sparkline([1,1,2], {
-	    type: 'pie'});
-	
-	
+		
 	$http(
 			{
 				method : 'POST',
-				url : 'http://localhost/projetService/events',
+				url : '/projetService/events',
 				data : 'projetListUrlUid=' + $scope.projetListUrlUid,
 				headers : {
 					'Content-Type' : 'application/x-www-form-urlencoded'
@@ -834,13 +852,27 @@ app1.controller('reports', function($http, $scope, $routeParams) {
 		$http(
 				{
 					method : 'POST',
-					url : 'http://localhost/projetService/reports',
+					url : '/projetService/reports',
 					data : 'projetListUrlUid=' + $scope.projetListUrlUid + "&eventStartUid=" + $scope.eventStartSelected.uid + "&eventEndUid="+$scope.eventEndSelected.uid,
 					headers : {
 						'Content-Type' : 'application/x-www-form-urlencoded'
 					}
 				}).success(function(data, status, headers, config) {
-					$scope.reports = data;
+					$scope.reports = data.urlCheckResults;
+					$scope.responseStatusStats = data.responseStatusStats;
+					
+					var theTitles = new Array();
+					var theValues = new Array();
+					angular.forEach(data.responseStatusStats, function(value, key) {
+						  theTitles.push(key,value);
+						  theValues.push(value);
+						});
+					
+					$("#sparkline").sparkline(theValues, {
+					    type: 'pie' ,height: '100px', tooltipFormat: '{{offset:slice}} ({{percent.1}}%)', tooltipValueLookups: {
+					        'slice': theTitles,'height' : 50}
+					    });
+					
 		})
 	}
 	
@@ -851,7 +883,7 @@ app1.controller('login', function($http, $scope) {
 	app1.setUser = function(user) {
 		$http({
 			method : 'POST',
-			url : 'http://localhost/loginService/signe',
+			url : '/loginService/signe',
 			data : "password=" + user.password + "&username=" + user.username,
 			headers : {
 				'Content-Type' : 'application/x-www-form-urlencoded'

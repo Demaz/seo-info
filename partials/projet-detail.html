@@ -10,13 +10,25 @@
   </div>
 </div>
 <div>
-	  <div> 
-		Nom du projet :
-		<input type="text" ng-model="app.infosProjet.name" ><br/>
-		Description:
-		<input type="text" ng-model="app.infosProjet.description" ><br/>
-		Nom du domaine :
-		<input type="text" ng-model="app.infosProjet.domaine" > <br/>
-		<input type="button" value="ajouter" ng-click="app.setInfos(app.infosProjet)" />
+	  <div style="width: 450px;margin-left: 200px;" > 
+		<div style="width: 200px;display:inline-block;float:left">Nom du projet : </div><div style="float:left;display:inline-block;width: 200px"><input type="text" ng-model="app.infosProjet.name" ></div><br/>
+		<div style="width: 200px;display:inline-block;float:left">Description : </div><div style="float:left;display:inline-block;width: 200px"><input type="text" ng-model="app.infosProjet.description" ></div><br/>
+		<div style="width: 200px;display:inline-block;float:left">Nom du domaine : </div><div style="float:left;display:inline-block;width: 200px"><input type="text" ng-model="app.infosProjet.domaine" ></div><br/>
+		
+		<div ng-switch on="actionMessage" >
+			<div ng-switch-when="creation">
+				<input type="button" value="ajouter" ng-click="app.createProjet(app.infosProjet)" />
+			</div>
+			<div style="font-color:green" ng-switch-when="creationEffectuee">
+				<br/>Le projet a bien été ajouté, <a href="#/listes/{{app.infosProjet.uid}}">continuer pour ajouter des listes d'url : </a>
+			</div>
+			<div ng-switch-when="miseAJour">
+				<input type="button" value="Modifier" ng-click="app.updateProjet(app.infosProjet)" />
+			</div>
+			<div style="color: green" ng-if="updateSuccess">
+				<br/>Les modifications on été prises en comptes
+			</div>
+			
+		</div>
 	</div>
 </div>

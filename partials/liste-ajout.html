@@ -13,9 +13,14 @@
     </ul>
   </div>
 </div>
-<div id="gallery">
-  	<font>Nom de la liste</font><input type="text" ng-model="app.urlList.name" /><br/>
-  	<font>Description</font><input type="text" ng-model="app.urlList.description" /><br/>
-  	<font>Mode</font><select ng-model="typeDefault" ng-options="type.name for type in types"><br/>
-  	<input type="button" value="sauver" ng-click="app.saveInfos(app.urlList)" />
+<div style="width: 450px;margin-left: 200px;height: 200px" >
+  	<div style="width: 200px;display:inline-block;float:left">Nom de la liste : </div><div style="float:left;display:inline-block;width: 200px"><input type="text" ng-model="app.urlList.name" /></div>
+  	<div style="width: 200px;display:inline-block;float:left">Description : </div><div style="float:left;display:inline-block;width: 200px"><input type="text" ng-model="app.urlList.description" /></div>
+  	<div style="width: 200px;display:inline-block;float:left">Type de liste :</div>
+  	<div style="float:left;display:inline-block;width: 200px">
+  		<select ng-model="typeDefault" ng-options="type.name for type in types"/>
+  	</div>
+  	<br/>
+  	 <input style="float: botton;" type="button" value="Ajouter" ng-click="app.saveInfos(app.urlList)" />
+  	
 </div>

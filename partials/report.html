@@ -10,14 +10,20 @@
   </div>
 </div>
 
+<center>
     <select ng-options="(ev.endDate | date:'MM/dd/yyyy @ hh:mm') for ev in events" ng-model="eventStartSelected" ng-change="loadReports()" >
 	</select>
 
 	<select ng-options="(ev.endDate | date:'MM/dd/yyyy @ hh:mm') for ev in events" ng-model="eventEndSelected" ng-change="loadReports()" >
 	</select>
-	
+	<br/>
+	<div style="display:inline-block;float:left;margin-left: 10px" ng-repeat="(key, value) in responseStatusStats">{{key}} : <br/>{{value}}</div>
+	<br/>
+	<br/>
 	<div id="sparkline">
 	</div>
+	
+	</center>
 	
   <div id="gallery">
     <table ng-table class="table">
